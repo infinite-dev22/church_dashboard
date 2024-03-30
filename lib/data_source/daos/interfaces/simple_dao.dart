@@ -18,7 +18,7 @@ abstract class SimpleDao {
 
   Future<dynamic> delete(int id);
 
-  Future<Long> getCountAll();
+  Future<int> getCountAll();
 
-  Future<List<Map<String, dynamic>>> getCountByDateJoined();
+  Future<List<dynamic>> getCountByDateJoined();
 }

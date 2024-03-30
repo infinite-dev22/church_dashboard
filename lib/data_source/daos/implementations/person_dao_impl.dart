@@ -11,7 +11,7 @@ class PersonDaoImpl extends SimpleDao {
   var prefs = getLocalStorage();
 
   @override
-  Future<Long> getCountAll() async {
+  Future<int> getCountAll() async {
     Dio dio = Dio(baseOps)
       ..interceptors.add(DioCacheInterceptor(options: options));
 
@@ -35,7 +35,7 @@ class PersonDaoImpl extends SimpleDao {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getCountByDateJoined() async {
+  Future<List<dynamic>> getCountByDateJoined() async {
     Dio dio = Dio(baseOps)
       ..interceptors.add(DioCacheInterceptor(options: options));
 

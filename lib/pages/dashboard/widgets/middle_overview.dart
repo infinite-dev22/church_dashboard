@@ -1,6 +1,9 @@
+import 'package:church_dashboard/pages/dashboard/bloc/dashboard_bloc.dart';
 import 'package:church_dashboard/pages/dashboard/widgets/dashboard_graph.dart';
 import 'package:church_dashboard/pages/dashboard/widgets/dashboard_graph_holder.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MiddleOverview extends StatelessWidget {
   const MiddleOverview({super.key});
@@ -8,14 +11,37 @@ class MiddleOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
-    return _buildBody(screenHeight);
+    return BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (blocContext, state) {
+        if (state.status.isInitial) {
+          blocContext.read<DashboardBloc>().add(GetCountAllByDateJoined());
+        }
+        if (state.status.isLoading) {
+          return _buildBody(screenHeight, blocContext, state);
+        }
+        if (state.status.isError) {
+          return _buildBody(screenHeight, blocContext, state);
+        }
+        if (state.status.isSuccess) {
+          return _buildBody(screenHeight, blocContext, state);
+        }
+        return _buildBody(screenHeight, blocContext, state);
+      },
+    );
   }
 
-  Widget _buildBody(double screenHeight) {
+  Widget _buildBody(
+      double screenHeight, BuildContext context, DashboardState state) {
+    var newMembersData = state.groupedCount
+        ?.map((count) => FlSpot(count.dateJoined, count.count))
+        .toList();
+    var inActiveMembersData = state.groupedCount
+        ?.map((count) => FlSpot(count.dateJoined, count.count))
+        .toList();
     return SizedBox(
       height: screenHeight * .5,
-      child: const DashboardGraphHolder(
-        graph: LineChartSample1(),
+      child: DashboardGraphHolder(
+        graph: LineChartSample1(newMembersData: newMembersData!, inActiveMembersData: inActiveMembersData!),
       ),
     );
   }

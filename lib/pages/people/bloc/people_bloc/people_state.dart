@@ -2,7 +2,7 @@ part of 'people_bloc.dart';
 
 enum PeopleStatus { initial, success, error, loading, selected, noData }
 
-extension ClientsStatusX on PeopleStatus {
+extension PeopleStatusX on PeopleStatus {
   bool get isInitial => this == PeopleStatus.initial;
 
   bool get isSuccess => this == PeopleStatus.success;

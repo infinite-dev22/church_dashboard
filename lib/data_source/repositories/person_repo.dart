@@ -5,7 +5,7 @@ import 'package:church_dashboard/data_source/models/count_model.dart';
 import 'package:church_dashboard/data_source/models/person_model.dart';
 
 class PersonRepo {
-  static Future<Long> countAll(int personId) async {
+  static Future<int> countAll() async {
     var personDao = PersonDaoImpl();
     var response = await personDao.getCountAll();
     return response;

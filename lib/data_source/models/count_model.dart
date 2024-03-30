@@ -4,23 +4,13 @@ class CountModel {
     required this.count,
   });
 
-  final int? dateJoined;
-  final int? count;
-
-  CountModel copyWith({
-    int? dateJoined,
-    int? count,
-  }) {
-    return CountModel(
-      dateJoined: dateJoined ?? this.dateJoined,
-      count: count ?? this.count,
-    );
-  }
+  final double dateJoined;
+  final double count;
 
   factory CountModel.fromJson(Map<String, dynamic> json) {
     return CountModel(
-      dateJoined: json["dateJoined"],
-      count: json["count"],
+      dateJoined: DateTime.fromMillisecondsSinceEpoch(json["dateJoined"] * 1000).month.toDouble(),
+      count: double.parse(json["count"].toString()),
     );
   }
 
