@@ -35,13 +35,17 @@ class MiddleOverview extends StatelessWidget {
     var newMembersData = state.groupedCount
         ?.map((count) => FlSpot(count.dateJoined, count.count))
         .toList();
-    var inActiveMembersData = state.groupedCount
-        ?.map((count) => FlSpot(count.dateJoined, count.count))
-        .toList();
+    List<double>? counts =
+        state.groupedCount?.map((count) => count.count).toList();
+    var highest = 0.0;
+    if (counts != null && counts.isNotEmpty) {
+      highest =
+          counts.reduce((current, next) => current > next ? current : next);
+    }
     return SizedBox(
       height: screenHeight * .5,
       child: DashboardGraphHolder(
-        graph: LineChartSample1(newMembersData: newMembersData!, inActiveMembersData: inActiveMembersData!),
+        graph: LineChartSample(newMembersData: newMembersData!, highest: highest),
       ),
     );
   }

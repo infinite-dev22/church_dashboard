@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 abstract class SimpleDao {
   /*

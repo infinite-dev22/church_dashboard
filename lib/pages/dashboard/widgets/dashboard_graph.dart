@@ -4,22 +4,23 @@ import 'package:flutter/material.dart';
 
 class DashboardGraph extends StatelessWidget {
   final List<FlSpot> newMembersData;
-  final List<FlSpot> inActiveMembersData;
+  final double highest;
 
-  const DashboardGraph(
-      {super.key,
-      required this.newMembersData,
-      required this.inActiveMembersData});
+  const DashboardGraph({
+    super.key,
+    required this.newMembersData,
+    required this.highest,
+  });
 
   @override
   Widget build(BuildContext context) {
     return LineChart(
-      sampleData1,
+      sampleData,
       duration: const Duration(milliseconds: 250),
     );
   }
 
-  LineChartData get sampleData1 => LineChartData(
+  LineChartData get sampleData => LineChartData(
         lineTouchData: lineTouchData,
         gridData: gridData,
         titlesData: titlesData,
@@ -27,6 +28,7 @@ class DashboardGraph extends StatelessWidget {
         lineBarsData: lineBarsData,
         minX: 0,
         maxX: 13,
+        maxY: highest,
         minY: 0,
       );
 
@@ -52,10 +54,7 @@ class DashboardGraph extends StatelessWidget {
         ),
       );
 
-  List<LineChartBarData> get lineBarsData => [
-        lineChartBarData1,
-        lineChartBarData2,
-      ];
+  List<LineChartBarData> get lineBarsData => [lineChartBarData];
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -64,36 +63,36 @@ class DashboardGraph extends StatelessWidget {
     );
     String text;
     switch (value.toInt()) {
-      case ==0:
+      case == 0:
         text = '0';
-      case <5:
+      case < 5:
         text = '5';
         break;
-      case <15:
+      case < 15:
+        text = '10';
+        break;
+      case < 25:
         text = '25';
         break;
-      case <25:
-        text = '25';
-        break;
-      case <50:
+      case < 50:
         text = '50';
         break;
-      case <75:
+      case < 75:
         text = '75';
         break;
-      case <100:
+      case < 100:
         text = '100';
         break;
-      case <125:
+      case < 125:
         text = '125';
         break;
-      case <150:
+      case < 150:
         text = '150';
         break;
-      case <175:
+      case < 175:
         text = '175';
         break;
-      case <200:
+      case < 200:
         text = '200';
         break;
       default:
@@ -185,7 +184,7 @@ class DashboardGraph extends StatelessWidget {
         ),
       );
 
-  LineChartBarData get lineChartBarData1 => LineChartBarData(
+  LineChartBarData get lineChartBarData => LineChartBarData(
         isCurved: true,
         color: AppColor.contentColorGreen,
         barWidth: 8,
@@ -194,29 +193,17 @@ class DashboardGraph extends StatelessWidget {
         belowBarData: BarAreaData(show: false),
         spots: newMembersData,
       );
-
-  LineChartBarData get lineChartBarData2 => LineChartBarData(
-        isCurved: true,
-        color: AppColor.contentColorRed,
-        barWidth: 8,
-        isStrokeCapRound: true,
-        dotData: const FlDotData(show: false),
-        belowBarData: BarAreaData(
-          show: false,
-          color: AppColor.contentColorPink.withOpacity(0),
-        ),
-        spots: inActiveMembersData,
-      );
 }
 
-class LineChartSample1 extends StatelessWidget {
+class LineChartSample extends StatelessWidget {
   final List<FlSpot> newMembersData;
-  final List<FlSpot> inActiveMembersData;
+  final double highest;
 
-  const LineChartSample1(
-      {super.key,
-      required this.newMembersData,
-      required this.inActiveMembersData});
+  const LineChartSample({
+    super.key,
+    required this.newMembersData,
+    required this.highest,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -247,9 +234,7 @@ class LineChartSample1 extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 16, left: 6),
                   child: DashboardGraph(
-                    newMembersData: newMembersData,
-                    inActiveMembersData: inActiveMembersData,
-                  ),
+                      newMembersData: newMembersData, highest: highest),
                 ),
               ),
               const SizedBox(

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DashboardGraphHolder extends StatelessWidget {
-  final LineChartSample1 graph;
+  final LineChartSample graph;
 
   const DashboardGraphHolder({super.key, required this.graph});
 

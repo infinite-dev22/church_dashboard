@@ -5,6 +5,7 @@ import 'package:church_dashboard/pages/people/bloc/forms/people/person_add_form_
 import 'package:church_dashboard/pages/people/bloc/people_bloc/people_bloc.dart';
 import 'package:church_dashboard/theme/light.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -12,7 +13,15 @@ class PersonForm extends StatelessWidget {
   final int? personId;
   final BuildContext? parentContext;
 
-  const PersonForm({super.key, this.personId, this.parentContext});
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController otherNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController joinedOnController = TextEditingController();
+
+  PersonForm({super.key, this.personId, this.parentContext});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +48,7 @@ class PersonForm extends StatelessWidget {
               return _buildErrorBody(context);
             }
           }
-          return const Placeholder();
+          return _buildBody(context, oldPerson: null);
         },
       ),
     );
@@ -137,85 +146,83 @@ class PersonForm extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context, {PersonModel? oldPerson}) {
-    return const Placeholder();
+    return SizedBox(
+      width: 400,
+      height: 500,
+      child: Column(
+        children: [
+          const Text(
+            'Add Member',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 20),
+          TextFormField(
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(), hintText: 'First Name'),
+            controller: firstNameController,
+          ),
+          const SizedBox(height: 10),
+          TextFormField(
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(), hintText: 'Last Name'),
+            controller: lastNameController,
+          ),
+          const SizedBox(height: 10),
+          TextFormField(
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(), hintText: 'Other Name'),
+            controller: otherNameController,
+          ),
+          const SizedBox(height: 10),
+          TextFormField(
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(), hintText: 'Email'),
+            controller: emailController,
+          ),
+          const SizedBox(height: 10),
+          TextFormField(
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(), hintText: 'Phone'),
+            controller: phoneController,
+          ),
+          const SizedBox(height: 10),
+          TextFormField(
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(), hintText: 'Address'),
+            controller: addressController,
+          ),
+          const SizedBox(height: 15),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FilledButton(
+                onPressed: () {
+                  var person = PersonModel(
+                      firstName: firstNameController.text.trim(),
+                      otherName: otherNameController.text.trim(),
+                      lastName: lastNameController.text.trim(),
+                      email: emailController.text.trim(),
+                      phone: phoneController.text.trim(),
+                      address: addressController.text.trim(),
+                      dateJoined: DateTime.now());
+                  context.read<PersonFormBloc>().add(PostPerson(person));
+                },
+                child: const Text('Add'),
+              ),
+              const SizedBox(width: 10),
+              OutlinedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel'),
+              )
+            ],
+          ),
+        ],
+      ),
+    );
   }
-
-// Widget _buildCompanyBody(BuildContext context, BoxConstraints constraints,
-//     {PersonModel? oldPerson}) {
-//   return Column(
-//     children: [
-//       SizedBox(height: 2.h),
-//       BlocBuilder<IndustryTypeBloc, IndustryTypeState>(
-//         builder: (context, state) {
-//           if (state.status == IndustryTypeStatus.initial) {
-//             context.read<IndustryTypeBloc>().add(GetIndustryTypes());
-//             return Container(
-//               height: 55,
-//               width: double.infinity,
-//               decoration: BoxDecoration(
-//                 borderRadius: const BorderRadius.all(
-//                   Radius.circular(8.0),
-//                 ),
-//                 border: Border.all(width: 1, color: LightAppColor.darker),
-//               ),
-//               child: const CupertinoActivityIndicator(),
-//             );
-//           }
-//           if (state.status == IndustryTypeStatus.success) {
-//             return SizedBox(
-//               height: 50,
-//               child: DropdownButtonFormField2(
-//                 value: oldPerson?.businessIndustryId,
-//                 decoration: const InputDecoration(
-//                     border: OutlineInputBorder(
-//                       borderRadius: BorderRadius.all(
-//                         Radius.circular(8.0),
-//                       ),
-//                     ),
-//                     label: Text("Industry")),
-//                 items: context
-//                     .read<IndustryTypeBloc>()
-//                     .state
-//                     .types
-//                     ?.map((industryType) => DropdownMenuItem(
-//                           value: industryType.id,
-//                           child: Text(industryType.name!),
-//                         ))
-//                     .toList(),
-//                 onChanged: (value) => person.businessIndustryId = value,
-//               ),
-//             );
-//           }
-//           if (state.status == IndustryTypeStatus.error) {
-//             return Container(
-//               height: 55,
-//               width: double.infinity,
-//               decoration: BoxDecoration(
-//                 borderRadius: const BorderRadius.all(
-//                   Radius.circular(8.0),
-//                 ),
-//                 border: Border.all(width: 1, color: LightAppColor.darker),
-//               ),
-//               child: const Center(
-//                 child: Icon(Icons.error_outline_rounded),
-//               ),
-//             );
-//           }
-//           return Container(
-//             height: 55,
-//             width: double.infinity,
-//             decoration: BoxDecoration(
-//               borderRadius: const BorderRadius.all(
-//                 Radius.circular(8.0),
-//               ),
-//               border: Border.all(width: 1, color: LightAppColor.darker),
-//             ),
-//             child: const CupertinoActivityIndicator(),
-//           );
-//         },
-//       ),
-//       SizedBox(height: 2.h),
-//     ],
-//   );
-// }
 }

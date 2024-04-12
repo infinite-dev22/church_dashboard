@@ -199,7 +199,10 @@ class _PeopleSuccessWidgetState extends State<PeopleSuccessWidget> {
             BlocProvider<PersonFormBloc>(
               create: (_) => PersonFormBloc(),
             ),
-          ], child: PersonForm(parentContext: context)),
+          ], child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: PersonForm(parentContext: context),
+          )),
         );
       },
     );
