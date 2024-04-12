@@ -105,6 +105,9 @@ class PersonDaoImpl extends SimpleDao {
       var response = await client.post(Uri.http(appUrl, '/api/v1/users/add'),
           headers: headers, body: jsonEncode(data));
 
+      print('Response: ${jsonDecode(utf8.decode(response.bodyBytes)) as dynamic}');
+      print('Response Code: ${response.statusCode}');
+
       if (response.statusCode == 200) {
         return jsonDecode(utf8.decode(response.bodyBytes)) as Map;
       } else {

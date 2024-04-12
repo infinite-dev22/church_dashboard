@@ -71,16 +71,13 @@ class PersonModel {
 
   Map<String, dynamic> toApiJson() {
     return {
-      'id': id,
       'firstName': firstName,
       'lastName': lastName,
       'otherName': otherName,
       'phone': phone,
       'email': email,
       'address': address,
-      'dateJoined': dateJoined,
-      'active': active,
-      'createdAt': createdAt,
+      'dateJoined': dateJoined?.toIso8601String(),
     };
   }
 }

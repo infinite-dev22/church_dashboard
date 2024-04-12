@@ -30,8 +30,8 @@ class PersonFormBloc extends Bloc<PersonFormEvent, PersonFormState> {
   _mapPostClientAddFormEventToState(
       PostPerson event, Emitter<PersonFormState> emit) async {
     emit(state.copyWith(status: PersonFormStatus.loading));
-    await PersonRepo.post(event.person).then((person) {
-      emit(state.copyWith(status: PersonFormStatus.success, person: person));
+    await PersonRepo.post(event.person).whenComplete(() {
+      emit(state.copyWith(status: PersonFormStatus.posted));
     }).onError((error, stackTrace) {
       if (kDebugMode) {
         print(error);

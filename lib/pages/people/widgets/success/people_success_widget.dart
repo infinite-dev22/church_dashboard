@@ -201,7 +201,7 @@ class _PeopleSuccessWidgetState extends State<PeopleSuccessWidget> {
             ),
           ], child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: PersonForm(parentContext: context),
+            child: PersonForm(),
           )),
         );
       },

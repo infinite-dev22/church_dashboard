@@ -35,8 +35,8 @@ class PersonRepo {
 
   static Future post(PersonModel person) async {
     var personDao = PersonDaoImpl();
-    var personMap = await personDao.post(person.toApiJson());
-    return PersonModel.fromJson(personMap);
+    await personDao.post(person.toApiJson());
+    return 1;
   }
 
   static Future put(PersonModel person, int personId) async {

@@ -11,7 +11,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 class PersonForm extends StatelessWidget {
   final int? personId;
-  final BuildContext? parentContext;
 
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -21,43 +20,36 @@ class PersonForm extends StatelessWidget {
   final TextEditingController addressController = TextEditingController();
   final TextEditingController joinedOnController = TextEditingController();
 
-  PersonForm({super.key, this.personId, this.parentContext});
+  PersonForm({super.key, this.personId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<PeopleBloc, PeopleState>(
-      listener: (context, state) {
-        if (state.status == PeopleStatus.success) {
-          if (parentContext != null) {
-            BlocProvider.of<PeopleBloc>(parentContext!).add(GetPeople());
-          }
-          Navigator.of(context).pop();
-        }
-      },
-      child: BlocBuilder<PersonFormBloc, PersonFormState>(
+    return BlocConsumer<PersonFormBloc, PersonFormState>(
         builder: (context, state) {
-          if (personId != null) {
-            if (state.status == PersonFormStatus.initial) {
-              context.read<PersonFormBloc>().add(GetFormPerson(personId!));
-            } else if (state.status == PersonFormStatus.success) {
-              var person = context.read<PersonFormBloc>().state.person!;
-              return _buildBody(context, oldPerson: person);
-            } else if (state.status == PersonFormStatus.loading) {
-              return _buildLoadingBody(context);
-            } else if (state.status == PersonFormStatus.error) {
-              return _buildErrorBody(context);
-            }
-          }
-          return _buildBody(context, oldPerson: null);
-        },
-      ),
-    );
+      if (personId != null) {
+        if (state.status == PersonFormStatus.initial) {
+          context.read<PersonFormBloc>().add(GetFormPerson(personId!));
+        } else if (state.status == PersonFormStatus.success) {
+          return _buildBody(context);
+        } else if (state.status == PersonFormStatus.loading) {
+          return _buildLoadingBody(context);
+        } else if (state.status == PersonFormStatus.error) {
+          return _buildErrorBody(context);
+        }
+      }
+      return _buildBody(context);
+    }, listener: (peopleBlocContext, state) {
+      if (state.status == PersonFormStatus.posted) {
+        BlocProvider.of<PeopleBloc>(context).add(GetPeople());
+        Navigator.of(peopleBlocContext).pop();
+      }
+    });
   }
 
-  Widget _buildLoadingBody(BuildContext context) {
+  Widget _buildLoadingBody(BuildContext formBlocContext) {
     return SingleChildScrollView(
       child: SizedBox(
-        width: (Responsive.isDesktop(context)) ? 30.w : 40.w,
+        width: (Responsive.isDesktop(formBlocContext)) ? 30.w : 40.w,
         child: LayoutBuilder(builder: (context, constraints) {
           return Column(
             children: [
@@ -145,7 +137,7 @@ class PersonForm extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(BuildContext context, {PersonModel? oldPerson}) {
+  Widget _buildBody(BuildContext formBlocContext) {
     return SizedBox(
       width: 400,
       height: 500,
@@ -208,14 +200,16 @@ class PersonForm extends StatelessWidget {
                       phone: phoneController.text.trim(),
                       address: addressController.text.trim(),
                       dateJoined: DateTime.now());
-                  context.read<PersonFormBloc>().add(PostPerson(person));
+                  formBlocContext
+                      .read<PersonFormBloc>()
+                      .add(PostPerson(person));
                 },
                 child: const Text('Add'),
               ),
               const SizedBox(width: 10),
               OutlinedButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pop(formBlocContext);
                 },
                 child: const Text('Cancel'),
               )

@@ -7,8 +7,7 @@ enum PersonFormStatus {
   loading,
   selected,
   noData,
-  individual,
-  company
+  posted,
 }
 
 extension PersonFormStatusX on PersonFormStatus {
@@ -22,9 +21,7 @@ extension PersonFormStatusX on PersonFormStatus {
 
   bool get isSelected => this == PersonFormStatus.selected;
 
-  bool get showIndividual => this == PersonFormStatus.initial;
-
-  bool get showCompany => this == PersonFormStatus.company;
+  bool get isPosted => this == PersonFormStatus.posted;
 }
 
 //
