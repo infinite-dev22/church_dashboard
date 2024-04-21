@@ -18,7 +18,7 @@ class PersonDaoImpl extends SimpleDao {
       };
 
       var response =
-          await client.get(Uri.http(appUrl, '/api/v1/users/count'), headers: headers);
+          await client.get(Uri.http(appUrl, '/members/count'), headers: headers);
 
       if (response.statusCode == 200) {
         return jsonDecode(utf8.decode(response.bodyBytes)) as int;
@@ -39,7 +39,7 @@ class PersonDaoImpl extends SimpleDao {
       };
 
       var response = await client
-          .get(Uri.http(appUrl, '/api/v1/users/count/date_joined'), headers: headers);
+          .get(Uri.http(appUrl, '/members/count/date_joined'), headers: headers);
 
       if (response.statusCode == 200) {
         return jsonDecode(utf8.decode(response.bodyBytes)) as List;
@@ -60,7 +60,7 @@ class PersonDaoImpl extends SimpleDao {
       };
 
       var response =
-          await client.get(Uri.http(appUrl, '/api/v1/users/single'), headers: headers);
+          await client.get(Uri.http(appUrl, '/members/single'), headers: headers);
 
       if (response.statusCode == 200) {
         return jsonDecode(utf8.decode(response.bodyBytes))
@@ -82,7 +82,7 @@ class PersonDaoImpl extends SimpleDao {
       };
 
       var response =
-          await client.get(Uri.http(appUrl, '/api/v1/users/all'), headers: headers);
+          await client.get(Uri.http(appUrl, '/members/all'), headers: headers);
 
       if (response.statusCode == 200) {
         return jsonDecode(utf8.decode(response.bodyBytes)) as List;
@@ -102,7 +102,7 @@ class PersonDaoImpl extends SimpleDao {
         'Accept': 'application/json',
       };
 
-      var response = await client.post(Uri.http(appUrl, '/api/v1/users/add'),
+      var response = await client.post(Uri.http(appUrl, '/members/add'),
           headers: headers, body: jsonEncode(data));
 
       print('Response: ${jsonDecode(utf8.decode(response.bodyBytes)) as dynamic}');
@@ -126,7 +126,7 @@ class PersonDaoImpl extends SimpleDao {
         'Accept': 'application/json',
       };
 
-      var response = await client.put(Uri.http(appUrl, '/api/v1/users/update'),
+      var response = await client.put(Uri.http(appUrl, '/members/update'),
           headers: headers, body: jsonEncode(data));
 
       if (response.statusCode == 200) {
@@ -148,7 +148,7 @@ class PersonDaoImpl extends SimpleDao {
       };
 
       var response = await client.get(
-          Uri.http(appUrl, '/api/v1/users/search', {'search': search}),
+          Uri.http(appUrl, '/members/search', {'search': search}),
           headers: headers);
 
       if (response.statusCode == 200) {
@@ -171,7 +171,7 @@ class PersonDaoImpl extends SimpleDao {
       };
 
       var response = await client.delete(
-          Uri.http(appUrl, '/api/v1/users/single/delete'),
+          Uri.http(appUrl, '/members/single/delete'),
           headers: headers,
           body: jsonEncode({'id': id}));
 
