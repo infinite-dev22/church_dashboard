@@ -26,13 +26,20 @@ class DashboardCard extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(20),
       color: AppColor.white,
-      child: Expanded(
-        child: Column(
-          children: [
-            Text(title, style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.bold,),),
-            Text(data, style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w800),),
-          ],
-        ),
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 11.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            data,
+            style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w800),
+          ),
+        ],
       ),
     );
   }

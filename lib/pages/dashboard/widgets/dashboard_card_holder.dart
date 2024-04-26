@@ -9,24 +9,24 @@ class DashboardCardHolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) => _buildBody(constraints),);
+    return LayoutBuilder(
+      builder: (context, constraints) => _buildBody(constraints),
+    );
   }
 
   Widget _buildBody(BoxConstraints constraints) {
-    return Container(width: constraints.maxWidth,
+    return Container(
+      width: constraints.maxWidth,
+      height: 300,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppColor.white,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: SizedBox(
-        width: constraints.maxWidth,
-        child: Wrap(
-          direction: Axis.horizontal,
-          alignment: WrapAlignment.spaceBetween,
-          runAlignment: WrapAlignment.spaceBetween,
-          children: cards,
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: cards,
       ),
     );
   }
